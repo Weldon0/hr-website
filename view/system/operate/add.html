@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>新增页面</title>
+		<link rel="stylesheet" href="../../../component/pear/css/pear.css" />
+	</head>
+	<body>
+		<form class="layui-form" action="">
+			<div class="mainBox">
+				<div class="main-container">
+					<div class="layui-form-item">
+						<label class="layui-form-label">手机号</label>
+						<div class="layui-input-block">
+							<input type="text" name="mobile" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+								class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">姓名</label>
+						<div class="layui-input-block">
+							<input type="text" name="username" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+								class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">工号</label>
+						<div class="layui-input-block">
+							<input type="text" name="workNumber" lay-verify="title" autocomplete="off" placeholder="请输入标题"
+								class="layui-input">
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label">选择框</label>
+						<div class="layui-input-inline">
+							<select name="4x2k6" lay-verify="required" lay-search>
+								<option value=""></option>
+								<option value="0">北京</option>
+								<option value="1">上海</option>
+								<option value="2">广州</option>
+								<option value="3">深圳</option>
+								<option value="4">杭州</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="bottom">
+				<div class="button-container">
+					<button type="submit" class="pear-btn pear-btn-primary pear-btn-sm" lay-submit=""
+						lay-filter="user-save">
+						<i class="layui-icon layui-icon-ok"></i>
+						提交
+					</button>
+					<button type="reset" class="pear-btn pear-btn-sm">
+						<i class="layui-icon layui-icon-refresh"></i>
+						重置
+					</button>
+				</div>
+			</div>
+		</form>
+		<script src="../../../component/layui/layui.js"></script>
+		<script src="../../../component/pear/pear.js"></script>
+		<script>
+			layui.use(['form', 'jquery'], function() {
+				let form = layui.form;
+				let $ = layui.jquery;
+
+				form.on('submit(user-save)', function(data) {
+					$.ajax({
+						url: 'http://weldon.net.cn:3001/api/sys/user',
+						data: JSON.stringify({...data.field,...{"formOfEmployment":1,"workNumber":"234","departmentName":"总裁办","timeOfEntry":"2023-01-31T16:00:00.000Z","correctionTime":"2023-02-21T16:00:00.000Z"}}),
+						dataType: 'json',
+						contentType: 'application/json',
+						headers: {
+							'Authorization': 'Bearer ' + localStorage.getItem('token')
+						},
+						type: 'post',
+						success: function(result) {
+							if (result.success) {
+								layer.msg(result.msg, {
+									icon: 1,
+									time: 1000
+								}, function() {
+									parent.layer.close(parent.layer.getFrameIndex(window
+										.name)); //关闭当前页
+									parent.layui.table.reload("user-table");
+								});
+							} else {
+								layer.msg(result.message, {
+									icon: 2,
+									time: 1000
+								});
+							}
+						}
+					})
+					return false;
+				});
+			})
+		</script>
+		<script>
+		</script>
+	</body>
+</html>

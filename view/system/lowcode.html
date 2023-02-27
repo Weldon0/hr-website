@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./element.css">
+    <title>Document</title>
+    <style>
+        .container {
+            display: flex;
+            height: 500px;
+            align-content: stretch;
+        }
+
+        .left {
+            width: 300px;
+            border: 1px solid red;
+            height: 100%;
+        }
+
+        .middle {
+            flex: 1;
+            border: 1px solid red;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .right {
+            width: 300px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    const leftData = [
+        {
+            type: 'input',
+            text: '输入框',
+            style: {
+                // width: '100px',
+                // height: '100px',
+                // background: 'red'
+            },
+            className: 'el-input__inner',
+            click: function () {
+                console.log('点击了按钮1')
+            },
+            props: {}
+        },
+        {
+            type: 'button',
+            text: '按钮',
+            style: {
+                // width: '100px',
+                // height: '100px',
+                // background: 'red'
+            },
+            className: 'el-button',
+            click: function () {
+                console.log('点击了按钮2')
+            },
+            props: {}
+        },
+        {
+            type: 'img',
+            text: '图片',
+            style: {
+                width: '100px',
+                height: '100px',
+                // background: 'red'
+            },
+            props: {
+                src: 'https://img.yzcdn.cn/vant/apple-1.jpg'
+            },
+            className: 'img',
+            click: function () {
+                console.log('点击了按钮3')
+            },
+        },
+    ]
+    document.addEventListener('DOMContentLoaded', function () {
+        const left = document.querySelector('.left')
+        const middle = document.querySelector('.middle')
+        // 打开拖动
+        leftData.forEach(item => {
+            const btn = document.createElement('button')
+
+            btn.setAttribute('draggable', true)
+            // 绑定拖动事件
+            btn.addEventListener('dragstart', function (e) {
+                e.dataTransfer.setData('type', item.type)
+                e.dataTransfer.setData('text', item.text)
+                e.dataTransfer.setData('className', item.className)
+                e.dataTransfer.setData('props', JSON.stringify(item.props))
+                e.dataTransfer.setData('style', JSON.stringify(item.style))
+            })
+            btn.innerText = item.text
+            btn.classList.add('el-button')
+            for (const styleKey in item.style) {
+                // btn.style[styleKey] = item.style[styleKey]
+            }
+            left.appendChild(btn)
+        })
+
+        // 绑定拖动到中间的事件
+        middle.addEventListener('dragover', function (e) {
+            e.preventDefault()
+        })
+        middle.addEventListener('drop', function (e) {
+            e.preventDefault()
+            console.log(e.dataTransfer.getData('props'))
+            const type = e.dataTransfer.getData('type')
+            const text = e.dataTransfer.getData('text')
+            const className = e.dataTransfer.getData('className')
+            const style = JSON.parse(e.dataTransfer.getData('style'))
+            const props = JSON.parse(e.dataTransfer.getData('props'))
+            const el = document.createElement(type)
+
+            for (const elKey in props) {
+                console.log(props)
+                console.log(elKey)
+                console.log(el[elKey])
+                el.setAttribute(elKey, props[elKey])
+            }
+
+            el.innerText = text
+            el.classList.add(className)
+            for (const styleKey in style) {
+                el.style[styleKey] = style[styleKey]
+            }
+            middle.appendChild(el)
+        })
+    })
+</script>
+<div>
+    <div class="container">
+        <div class="left"></div>
+        <div class="middle"></div>
+        <div class="right"></div>
+    </div>
+</div>
+</body>
+</html>

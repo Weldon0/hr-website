@@ -1,0 +1,23 @@
+[
+	{
+		"id": 1,
+		"title": "用户管理",
+		"icon": "layui-icon layui-icon-console",
+		"type": 1,
+		"href": "view/system/user.html"
+	},
+	{
+		"id": 2,
+		"title": "个人信息",
+		"icon": "layui-icon layui-icon-console",
+		"type": 1,
+		"href": "view/system/person.html"
+	},
+	{
+		"id": 3,
+		"title": "低代码表单",
+		"icon": "layui-icon layui-icon-console",
+		"type": 1,
+		"href": "view/system/lowcode.html"
+	}
+]
