@@ -67,8 +67,13 @@
 	width: 100% !important;
 	text-align: center !important;
 	color: gray !important;
-	height: 60px !important;
+	/*height: 60px !important;*/
 	line-height: 60px !important;
+}
+
+.desc img {
+	width: 100%;
+
 }
 
 body {
